@@ -26,5 +26,3 @@ WORKDIR /usr/app
 COPY app ./
 
 WORKDIR /usr/
-
-CMD gunicorn --bind 0.0.0.0:5000 app:application
