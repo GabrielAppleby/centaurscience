@@ -9,8 +9,8 @@ services:
         command: gunicorn --bind 0.0.0.0:5000 app:application
         expose:
             - 5000
-    nginx:
-        build: ./nginx
+    frontend:
+        build: ./frontend
         ports:
             - 4000:80
         depends_on:

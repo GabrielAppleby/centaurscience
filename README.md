@@ -5,6 +5,7 @@ The start of a super cool active search app
 
 If you want to you can run pieces of this application on its own. Pieces that support being run without docker compose are:
   - backend
+  - frontend (Not super helpful though)
 
 # Run docker
 

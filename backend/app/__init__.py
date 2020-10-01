@@ -14,7 +14,7 @@ def create_app() -> Flask:
         SECRET_KEY=os.environ.get('SECRET_KEY')
     )
 
-    api: Api = Api(app)
+    api: Api = Api(app, prefix='/api')
 
     api.add_resource(CandidateListAPI, '/candidates')
 
