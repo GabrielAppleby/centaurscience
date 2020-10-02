@@ -2,4 +2,5 @@ gunicorn
 python-dotenv
 Flask
 flask-restful
-pandas
+Flask-SQLAlchemy
+Flask-Migrate

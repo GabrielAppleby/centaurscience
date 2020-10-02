@@ -3,7 +3,7 @@ class Molecule:
     def __init__(self,
                  uid: int,
                  str_rep: str,
-                 label: int,
+                 label: str,
                  x: float,
                  y: float) -> None:
         self.uid = uid

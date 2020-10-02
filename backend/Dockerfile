@@ -21,6 +21,10 @@ RUN rm requirements.txt
 
 USER flask
 
+WORKDIR /usr/instance
+
+COPY instance ./
+
 WORKDIR /usr/app
 
 COPY app ./

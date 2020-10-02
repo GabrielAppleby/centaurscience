@@ -11,8 +11,8 @@ The beginnings of the active search backend for the centaur science molecule dis
 
 ## Currently working
 
-- /candidates
-    - Displays a fake list of candidates
+- api/molecules
+- api/molecules/{id}
     
 ## Docker?
 - This is a part of a larger docker compose
@@ -24,5 +24,5 @@ The beginnings of the active search backend for the centaur science molecule dis
         - This should spit out for image-id
     - docker image ls (if for whatever reason you've forgotten your image id)
         - find the image you just created
-    - docker run -p 5000:5000 <image-id> gunicorn --bind 0.0.0.0:5000 app:application
-    - go to localhost/5000/<a_working_resource>
+    - docker run -p 5000:5000 --env-file .env {image-id} gunicorn --bind 0.0.0.0:5000 app:application
+    - go to localhost/5000/{a_working_resource}
