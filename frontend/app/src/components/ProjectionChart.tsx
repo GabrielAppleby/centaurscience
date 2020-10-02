@@ -18,19 +18,18 @@ interface ProjectionChartProps {
 
 export const ProjectionChart: React.FC<ProjectionChartProps> = ({data, handleSelectedMoleculeChange}) => {
     const d3Container = useRef(null);
-    const coords = data;
 
     useEffect(() => {
-        if (coords) {
+        if (data !== undefined) {
             const margins = WIDTH * MARGINS_PROPORTION;
             const getX = (d: ProjectedMolecule) => d.x;
             const getY = (d: ProjectedMolecule) => d.y;
-            const minX = d3.min(coords, getX);
-            const maxX = d3.max(coords, getX);
-            const minY = d3.min(coords, getY);
-            const maxY = d3.max(coords, getY);
+            const minX = d3.min(data, getX);
+            const maxX = d3.max(data, getX);
+            const minY = d3.min(data, getY);
+            const maxY = d3.max(data, getY);
 
-            if (minX && maxX && minY && maxY) {
+            if (minX !== undefined && maxX !== undefined && minY !== undefined && maxY !== undefined) {
                 const xScaleBuffer = (maxX - minX) * BUFFER_PROPORTION;
                 const yScaleBuffer = (maxY - minY) * BUFFER_PROPORTION;
 
@@ -52,7 +51,7 @@ export const ProjectionChart: React.FC<ProjectionChartProps> = ({data, handleSel
 
                 circlesG
                     .selectAll('circle')
-                    .data(coords)
+                    .data(data)
                     .enter()
                     .append('circle')
                     .attr('cx', function (d) {
@@ -67,7 +66,7 @@ export const ProjectionChart: React.FC<ProjectionChartProps> = ({data, handleSel
                     .style("fill", (d) => {
                         return colors(String(d.label));
                     })
-                    .on("mouseover", function (mouseoverEvent, mol) {
+                    .on("click", function (mouseoverEvent, mol) {
                         circlesG
                             .select(".selected")
                             .attr('class', null)
@@ -96,7 +95,7 @@ export const ProjectionChart: React.FC<ProjectionChartProps> = ({data, handleSel
             }
 
         }
-    }, [coords, handleSelectedMoleculeChange]);
+    }, [data, handleSelectedMoleculeChange]);
 
 
     return (

@@ -1,6 +1,6 @@
 export interface Molecule {
     uid: number;
-    strRep: string;
+    str_rep: string;
     label: number;
 }
 

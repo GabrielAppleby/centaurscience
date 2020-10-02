@@ -13,7 +13,7 @@ export const MoleculeCandidateList: React.FC<MoleculeCandidateListProps> = ({mol
         <List>
             {moleculeCandidates.map(mol => {
                 return (<ListItem key={`item_${mol.uid}`}>
-                    <ListItemText key={`itemText_${mol.uid}`} secondary={mol.strRep.slice(0,8)}/>
+                    <ListItemText key={`itemText_${mol.uid}`} secondary={mol.str_rep.slice(0,8)}/>
                     <ListItemSecondaryAction>
                         <IconButton edge="end" aria-label="delete">
                             <Delete/>

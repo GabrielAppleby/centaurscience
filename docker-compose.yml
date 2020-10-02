@@ -5,7 +5,7 @@ services:
             context: ./backend
             dockerfile: Dockerfile
         env_file:
-                - ./backend/env/.env.prod
+                - ./backend/env/.env.production
         command: gunicorn --bind 0.0.0.0:5000 app:application
         expose:
             - 5000

@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {DefaultAppBar} from "./components/DefaultAppBar";
-import {Grid} from "@material-ui/core";
+import {Grid, Snackbar} from "@material-ui/core";
 import {Molecule} from "./types/Molecules";
 import {useDataset} from "./hooks/useDataset";
 import {ProjectionChart} from "./components/ProjectionChart";
@@ -14,11 +14,12 @@ const useStyles = makeStyles({
     verticallyCentered: {
         justifyContent: "center",
         alignItems: "center"
-    }
+    },
+    snackBar: {}
 });
 
 function App() {
-    const {data} = useDataset();
+    const {data, error} = useDataset();
     const {selectedItem, handleSelectedItemChange} = useSelection<Molecule>();
 
     const classes = useStyles();
@@ -40,6 +41,10 @@ function App() {
                     {selectedItem && <MoleculeCandidateList moleculeCandidates={[selectedItem]}/>}
                 </Grid>
             </Grid>
+            <Snackbar className={classes.snackBar}
+                      anchorOrigin={{vertical: "top", horizontal: "center"}}
+                      open={error !== undefined}
+                      message={error}/>
         </div>
     );
 }

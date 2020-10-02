@@ -10,7 +10,7 @@ interface MoleculeImageCardProps {
 }
 
 export const MoleculeImageCardProps: React.FC<MoleculeImageCardProps> = ({header, molecule}) => {
-    const url = smileToImageUrl(molecule.strRep);
+    const url = smileToImageUrl(molecule.str_rep);
 
     return (
         <ImageCard header={header} url={url}/>
