@@ -1,5 +1,7 @@
 gunicorn
 python-dotenv
+celery
+redis
 Flask
 flask-restful
 Flask-SQLAlchemy

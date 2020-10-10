@@ -1,17 +1,29 @@
 version: '3'
 services:
+    redis:
+        image: redis
+    celery:
+        build: ./backend
+        env_file:
+                - ./backend/.env 
+        depends_on:
+                - redis
+        command: celery -A app.celery worker
     backend:
-        build:
-            context: ./backend
-            dockerfile: Dockerfile
+        build: ./backend
         env_file:
                 - ./backend/.env
         command: gunicorn --bind 0.0.0.0:5000 app:application
         expose:
             - 5000
+        depends_on: 
+            - redis
+            - celery
     frontend:
         build: ./frontend
         ports:
             - 4000:80
         depends_on:
+            - redis
+            - celery
             - backend
