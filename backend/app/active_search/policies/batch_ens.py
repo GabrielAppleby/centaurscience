@@ -3,8 +3,8 @@ np.random.seed(0)
 
 from numpy.matlib import repmat
 
-from policies.ens import merge_sort
-from probability_bounds.knn_probability_bounds import knn_bound
+from app.active_search.policies.ens import merge_sort
+from app.active_search.probability_bounds.knn_probability_bounds import knn_bound
 
 from time import time
 
@@ -148,7 +148,7 @@ def batch_ens_select_next(train_and_selected_ind, y_train, x_test, test_ind,
             average_future_utility += temp_sample_weights[j] * delta_future_utility
 
         estimated_expected_utility[i] = probs[i] + average_future_utility
-        
+
         if estimated_expected_utility[i] > current_max \
                 and not np.isclose(estimated_expected_utility[i], current_max):
             current_max = estimated_expected_utility[i]

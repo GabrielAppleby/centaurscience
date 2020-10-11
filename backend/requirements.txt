@@ -6,3 +6,6 @@ Flask
 flask-restful
 Flask-SQLAlchemy
 Flask-Migrate
+numpy
+scipy
+scikit-learn
