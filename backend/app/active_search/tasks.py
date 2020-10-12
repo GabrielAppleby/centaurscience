@@ -38,7 +38,9 @@ def search(batch_size=1) -> None:
 
     # call active search and fill in candidate ids
     candidate_ids = batch_ens(
-        np.array(known_ids), np.array(known_labels), np.array(unknown_ids),
+        np.array(known_ids, dtype=int) - 1,     # these three need to be integers
+        np.array(known_labels, dtype=int) - 1,  # and are 0-indexed
+        np.array(unknown_ids, dtype=int) - 1,
         model, **kwargs
     )
 
