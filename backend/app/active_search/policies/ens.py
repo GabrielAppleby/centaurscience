@@ -1,7 +1,6 @@
 import numpy as np
 
-import sys; sys.path.append('../')
-from probability_bounds.knn_probability_bounds import knn_bound
+from app.active_search.probability_bounds.knn_probability_bounds import knn_bound
 
 
 def merge_sort(p, q, top_ind, budget):

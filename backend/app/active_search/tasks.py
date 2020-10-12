@@ -1,11 +1,17 @@
 from app.dao.molecule_dao import MoleculeDB
 from app.carrots.flask_celery import flask_celery
 
+import numpy as np
+from app.active_search.policies.batch_ens import batch_ens
+from app.active_search.utils import load_data
+from app.active_search.models.knn_model import KNNModel
+
+
 celery = flask_celery.get_celery()
 
 
 @celery.task()
-def search() -> None:
+def search(batch_size=1) -> None:
     known_ids = []
     known_labels = []
     unknown_ids = []
@@ -16,12 +22,23 @@ def search() -> None:
         else:
             unknown_ids.append(mol.uid)
 
-    candidate_ids = []
+    # set up active search
+    _, weights, alpha, nn_ind, sims = load_data('./data/500_nn_data.mat')
+    model = KNNModel(alpha, weights)
+    kwargs = {
+        'budget': 20,  # fake budget to control myopia: larger -> less myopic
+        'batch_size': batch_size, 'weights': weights,
+        'nn_ind': nn_ind, 'sims': sims, 'alpha': alpha,
+    }
+
     # call active search and fill in candidate ids
+    candidate_ids = batch_ens(
+        np.array(known_ids), np.array(known_labels), np.array(unknown_ids),
+        model, **kwargs
+    )
+
     for candidate_id in candidate_ids:
         mol_to_update = MoleculeDB.query().get(candidate_id)
         # it is possible mol_to_update is None if the candidate is not in the db
         # but at this point I'd rather have an error here than log it silently
         mol_to_update.label = 'candidate'
-
-
