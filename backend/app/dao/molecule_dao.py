@@ -4,7 +4,7 @@ from app.dao.database import db
 class MoleculeDB(db.Model):
     __tablename__ = 'molecules'
     uid = db.Column(db.Integer, primary_key=True)
-    str_rep = db.Column(db.String(128))
+    str_rep = db.Column(db.String(140))
     label = db.Column(db.String(32))
     x = db.Column(db.Float)
     y = db.Column(db.Float)
