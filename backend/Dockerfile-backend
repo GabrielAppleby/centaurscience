@@ -4,10 +4,6 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
 RUN groupadd -r flaskg
 RUN useradd --no-log-init -r -g flaskg flask
 
-COPY flask_setup.sh ./
-CMD ["./flask_setup.sh"]
-RUN rm flask_setup.sh
-
 RUN apt-get update
 RUN apt-get -yq upgrade
 RUN apt-get -yq install gcc musl-dev linux-headers-amd64
@@ -19,14 +15,10 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 RUN rm requirements.txt
 
-USER flask
-
-WORKDIR /usr/instance
-
-COPY instance ./
-
-WORKDIR /usr/app
-
-COPY app ./
+COPY app /usr/app
 
 WORKDIR /usr/
+
+RUN chown -R flask:flaskg /usr/app
+
+USER flask

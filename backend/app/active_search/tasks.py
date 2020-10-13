@@ -15,15 +15,18 @@ ACTIVE_SEARCH_DISTANCE_MAT: pathlib.Path = pathlib.Path(__file__).parent.absolut
                                                                                              '500_nn_data.mat')
 
 
-@celery.task()
+@celery.task
 def search(batch_size=1) -> None:
     known_ids = []
     known_labels = []
     unknown_ids = []
     for mol in MoleculeDB.query.all():
-        if mol.label == 'true' or mol.label == 'false':
+        if mol.label == 'True':
             known_ids.append(mol.uid)
-            known_labels.append(mol.label)
+            known_labels.append(1)
+        elif mol.label == 'False':
+            known_ids.append(mol.uid)
+            known_labels.append(0)
         else:
             unknown_ids.append(mol.uid)
 
@@ -39,15 +42,19 @@ def search(batch_size=1) -> None:
     # call active search and fill in candidate ids
     candidate_ids = batch_ens(
         np.array(known_ids, dtype=int) - 1,     # these three need to be integers
-        np.array(known_labels, dtype=int) - 1,  # and are 0-indexed
+        np.array(known_labels),  # and are 0-indexed
         np.array(unknown_ids, dtype=int) - 1,
         model, **kwargs
     )
 
+    candidate_ids += 1
+    candidate_ids = candidate_ids.tolist()
+
     for candidate_id in candidate_ids:
-        mol_to_update = MoleculeDB.query().get(candidate_id)
+        mol_to_update = MoleculeDB.query.get(candidate_id)
         # it is possible mol_to_update is None if the candidate is not in the db
         # but at this point I'd rather have an error here than log it silently
         mol_to_update.label = 'candidate'
 
     db.session.commit()
+    print(candidate_ids)

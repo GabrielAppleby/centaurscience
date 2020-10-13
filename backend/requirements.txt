@@ -1,11 +1,13 @@
+numpy
+scipy
+scikit-learn
+pandas
 gunicorn
 python-dotenv
 celery
 redis
 Flask
 flask-restful
+psycopg2-binary
 Flask-SQLAlchemy
 Flask-Migrate
-numpy
-scipy
-scikit-learn

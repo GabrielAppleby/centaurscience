@@ -1,29 +1,57 @@
 version: '3'
 services:
-    redis:
-        image: redis
-    celery:
-        build: ./backend
-        env_file:
-                - ./backend/.env 
-        depends_on:
-                - redis
-        command: celery -A app.celery worker
-    backend:
-        build: ./backend
-        env_file:
-                - ./backend/.env
-        command: gunicorn --bind 0.0.0.0:5000 app:application
-        expose:
-            - 5000
-        depends_on: 
-            - redis
-            - celery
-    frontend:
-        build: ./frontend
-        ports:
-            - 4000:80
-        depends_on:
-            - redis
-            - celery
-            - backend
+  redis:
+    image: redis
+  db:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=dev_pass
+      - POSTGRES_DB=dev_db
+  db_data:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-db
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    command: bash -c "flask db migrate -m \"h\" && flask db upgrade && python populate_db.py"
+  celery:
+    build:
+      context: ./backend
+      dockerfile: dockerfile-backend
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - redis
+      - db
+      - db_data
+    command: celery -A app.celery worker
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-backend
+    env_file:
+      - ./backend/.env
+    command: gunicorn --bind 0.0.0.0:5000 app:application
+    expose:
+      - 5000
+    depends_on:
+      - redis
+      - celery
+      - db
+      - db_data
+  frontend:
+    build: ./frontend
+    ports:
+      - 4000:80
+    depends_on:
+      - redis
+      - celery
+      - backend
+      - db
+      - db_data
+
