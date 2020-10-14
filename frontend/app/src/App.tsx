@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 
 function App() {
     const {data, error} = useDataset();
+
     const {selectedItem, handleSelectedItemChange} = useSelection<Molecule>();
 
     const classes = useStyles();
@@ -30,15 +31,17 @@ function App() {
             <DefaultAppBar organizationName={"Centaur Science"} appName={"Active Search"}/>
             <Grid container>
                 <Grid item xs={12} sm={6}>
-                    {data && <ProjectionChart data={data} handleSelectedMoleculeChange={handleSelectedItemChange}/>}
+                    {data && <ProjectionChart data={data} selectedMolecule={selectedItem} handleSelectedMoleculeChange={handleSelectedItemChange}/>}
                 </Grid>
                 <Grid item container className={classes.verticallyCentered} xs={12} sm={3}>
-                    <Grid item>
+                    <Grid item xs={12}>
                         {selectedItem && <MoleculeImageCardProps header={"Selected Molecule"} molecule={selectedItem}/>}
                     </Grid>
                 </Grid>
                 <Grid item container className={classes.verticallyCentered} xs={12} sm={3}>
-                    {selectedItem && <MoleculeCandidateList moleculeCandidates={[selectedItem]}/>}
+                    <Grid item xs={12}>
+                        {data && <MoleculeCandidateList moleculeCandidates={data.filter((d) => d.label === 'candidate')} handleSelectedMoleculeChange={handleSelectedItemChange}/>}
+                    </Grid>
                 </Grid>
             </Grid>
             <Snackbar className={classes.snackBar}

@@ -57,4 +57,3 @@ def search(batch_size=1) -> None:
         mol_to_update.label = 'candidate'
 
     db.session.commit()
-    print(candidate_ids)
