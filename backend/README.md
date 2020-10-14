@@ -17,12 +17,3 @@ The beginnings of the active search backend for the centaur science molecule dis
 ## Docker?
 - This is a part of a larger docker compose
    - Which is run from a level up, see that README 
-- Currently can build and run just using the Dockerfile here as well
-- Steps
-    - In this directory
-    - docker build . (should probably tag here)
-        - This should spit out for image-id
-    - docker image ls (if for whatever reason you've forgotten your image id)
-        - find the image you just created
-    - docker run -p 5000:5000 --env-file .env {image-id} gunicorn --bind 0.0.0.0:5000 app:application
-    - go to localhost/5000/{a_working_resource}
