@@ -9,7 +9,7 @@ interface MoleculeImageCardProps {
     readonly molecule: Molecule;
 }
 
-export const MoleculeImageCardProps: React.FC<MoleculeImageCardProps> = ({header, molecule}) => {
+export const MoleculeImageCard: React.FC<MoleculeImageCardProps> = ({header, molecule}) => {
     const url = smileToImageUrl(molecule.str_rep);
 
     return (

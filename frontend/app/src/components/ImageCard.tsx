@@ -6,9 +6,7 @@ const useStyles = makeStyles({
     imageCardDiv: {
         margin: "auto",
         textAlign: "center"
-    },
-    cardHeader: {},
-    cardContent: {},
+    }
 });
 
 
@@ -25,7 +23,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({header, url}) => {
             <Typography>
                 {header}
             </Typography>
-            <img src={url} alt={"A molecule."}/>
+            <img src={url} alt={"I'm sorry."}/>
         </div>
     )
 }

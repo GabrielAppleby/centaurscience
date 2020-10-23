@@ -1,54 +1,16 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {DefaultAppBar} from "./components/DefaultAppBar";
-import {Grid, Snackbar} from "@material-ui/core";
-import {Molecule} from "./types/Molecules";
-import {useDataset} from "./hooks/useDataset";
-import {ProjectionChart} from "./components/ProjectionChart";
-import {useSelection} from "./hooks/useSelection";
-import {MoleculeImageCardProps} from "./components/MoleculeImageCard";
-import {MoleculeCandidateList} from "./components/MoleculeCandidateList";
+import {QueryCache, ReactQueryCacheProvider} from "react-query";
+import {DefaultPanel} from "./panels/DefaultPanel";
 
-const useStyles = makeStyles({
-    app: {},
-    verticallyCentered: {
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    snackBar: {}
-});
+const queryCache = new QueryCache()
 
 function App() {
-    const {data, error} = useDataset();
-
-    const {selectedItem, handleSelectedItemChange} = useSelection<Molecule>();
-
-    const classes = useStyles();
 
 
     return (
-        <div className={classes.app}>
-            <DefaultAppBar organizationName={"Centaur Science"} appName={"Active Search"}/>
-            <Grid container>
-                <Grid item xs={12} sm={6}>
-                    {data && <ProjectionChart data={data} selectedMolecule={selectedItem} handleSelectedMoleculeChange={handleSelectedItemChange}/>}
-                </Grid>
-                <Grid item container className={classes.verticallyCentered} xs={12} sm={3}>
-                    <Grid item xs={12}>
-                        {selectedItem && <MoleculeImageCardProps header={"Selected Molecule"} molecule={selectedItem}/>}
-                    </Grid>
-                </Grid>
-                <Grid item container className={classes.verticallyCentered} xs={12} sm={3}>
-                    <Grid item xs={12}>
-                        {data && <MoleculeCandidateList moleculeCandidates={data.filter((d) => d.label === 'candidate')} handleSelectedMoleculeChange={handleSelectedItemChange}/>}
-                    </Grid>
-                </Grid>
-            </Grid>
-            <Snackbar className={classes.snackBar}
-                      anchorOrigin={{vertical: "top", horizontal: "center"}}
-                      open={error !== undefined}
-                      message={error}/>
-        </div>
+        <ReactQueryCacheProvider queryCache={queryCache}>
+            <DefaultPanel/>
+        </ReactQueryCacheProvider>
     );
 }
 

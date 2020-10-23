@@ -1,26 +1,34 @@
 import React from "react";
-import {Molecule} from "../types/Molecules";
-import {List, ListItem, ListItemText, Typography} from "@material-ui/core";
+import {ProjectedMolecule} from "../types/Molecules";
+import {List} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+import {MoleculeCandidateItem, MoleculeCandidateProps} from "./MoleculeCandidateItem";
 
 
-interface MoleculeCandidateListProps {
-    readonly moleculeCandidates: Molecule[];
-    readonly handleSelectedMoleculeChange: (mol: Molecule) => void;
+interface MoleculeCandidateListProps extends MoleculeCandidateProps {
+    readonly moleculeCandidates: ProjectedMolecule[];
 }
 
-export const MoleculeCandidateList: React.FC<MoleculeCandidateListProps> = ({moleculeCandidates, handleSelectedMoleculeChange}) => {
+
+const useStyles = makeStyles({
+    list: {
+        height: "100%",
+        overflow: "scroll"
+    },
+});
+
+
+export const MoleculeCandidateList: React.FC<MoleculeCandidateListProps> = ({moleculeCandidates, selectedMolecule, handleSelectedMoleculeChange}) => {
+    const classes = useStyles();
+
     return (
-        <List>
+        <List className={classes.list}>
             {moleculeCandidates.map(mol => {
                 return (
-                    <ListItem key={`item_${mol.uid}`}>
-                            <ListItemText key={`itemText_${mol.uid}`}
-                                          primary={mol.uid}
-                                          secondary={
-                                              <Typography style={{overflow:"scroll"}}>{mol.str_rep}</Typography>
-                                          }/>
-                    </ListItem>
-                )})}
+                    <MoleculeCandidateItem molecule={mol} selectedMolecule={selectedMolecule}
+                                           handleSelectedMoleculeChange={handleSelectedMoleculeChange}/>
+                )
+            })}
         </List>
-        )
+    )
 }

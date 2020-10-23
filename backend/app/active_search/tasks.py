@@ -16,7 +16,7 @@ ACTIVE_SEARCH_DISTANCE_MAT: pathlib.Path = pathlib.Path(__file__).parent.absolut
 
 
 @celery.task
-def search(batch_size=1) -> None:
+def search(batch_size=6) -> None:
     known_ids = []
     known_labels = []
     unknown_ids = []
