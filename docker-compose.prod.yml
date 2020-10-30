@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   db:
+    volumes:
+      - db-data:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=dev_user
       - POSTGRES_PASSWORD=dev_pass
@@ -13,7 +15,6 @@ services:
     env_file: ./backend/.env 
     depends_on:
       - db
-    command: bash -c "flask db migrate -m \"h\" && flask db upgrade && python populate_db.py"
   celery:
     build:
       dockerfile: Dockerfile-servers.prod
@@ -30,4 +31,6 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - 3000:80
-
+  
+volumes:
+  db-data:

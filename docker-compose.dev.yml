@@ -20,6 +20,8 @@ services:
     env_file: ./backend/.env 
     volumes:
       - './backend/app:/usr/app'
+    depends_on:
+      - db_data
   backend:
     build:
       dockerfile: Dockerfile-servers.dev
@@ -29,6 +31,8 @@ services:
       - 5000:5000
     volumes:
       - './backend/app:/usr/app'
+    depends_on:
+      - db_data
   frontend:
     build:
       dockerfile: Dockerfile.dev
@@ -39,4 +43,6 @@ services:
       - './frontend/app:/usr/app'
     stdin_open: true
     working_dir: '/usr/app'
+    depends_on:
+      - db_data
 

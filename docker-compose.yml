@@ -13,7 +13,6 @@ services:
     depends_on:
       - redis
       - db
-      - db_data
     command: celery -A app.celery worker
   backend:
     build:
@@ -22,7 +21,6 @@ services:
       - redis
       - celery
       - db
-      - db_data
   frontend:
     build: 
       context: ./frontend
@@ -31,5 +29,4 @@ services:
       - celery
       - backend
       - db
-      - db_data
 
