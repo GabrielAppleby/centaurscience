@@ -54,6 +54,6 @@ def search(batch_size=6) -> None:
         mol_to_update = MoleculeDB.query.get(candidate_id)
         # it is possible mol_to_update is None if the candidate is not in the db
         # but at this point I'd rather have an error here than log it silently
-        mol_to_update.label = 'candidate'
+        mol_to_update.label = 'Candidate'
 
     db.session.commit()

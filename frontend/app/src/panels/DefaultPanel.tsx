@@ -53,14 +53,14 @@ export const DefaultPanel = () => {
                 </Grid>
                 <Grid container item sm={12} md={3} direction={"column"} className={classes.moleculeImageContainer}>
                     <Grid item>
-                        {selectedItem && <MoleculeImageCard header={"Selected Molecule"} molecule={selectedItem}/>}
+                        <MoleculeImageCard header={"Selected Molecule"} molecule={selectedItem}/>
                     </Grid>
                     <Grid item>
                         <Controls/>
                     </Grid>
                 </Grid>
                 <Grid item sm={12} md={3} className={classes.chartGridContainer}>
-                    {data && <MoleculeCandidateList moleculeCandidates={data.filter((d) => d.label === 'candidate')}
+                    {data && <MoleculeCandidateList moleculeCandidates={data.filter((d) => d.label === 'Candidate')}
                                                     handleSelectedMoleculeChange={handleSelectedItemChange}
                                                     selectedMolecule={selectedItem}/>}
                 </Grid>

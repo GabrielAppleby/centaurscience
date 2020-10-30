@@ -25,7 +25,9 @@ export const MoleculeCandidateList: React.FC<MoleculeCandidateListProps> = ({mol
         <List className={classes.list}>
             {moleculeCandidates.map(mol => {
                 return (
-                    <MoleculeCandidateItem molecule={mol} selectedMolecule={selectedMolecule}
+                    <MoleculeCandidateItem key={`list_item_${mol.uid}`}
+                                           molecule={mol}
+                                           selectedMolecule={selectedMolecule}
                                            handleSelectedMoleculeChange={handleSelectedMoleculeChange}/>
                 )
             })}

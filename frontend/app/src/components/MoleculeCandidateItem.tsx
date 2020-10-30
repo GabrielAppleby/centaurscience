@@ -1,7 +1,7 @@
 import {makeStyles} from "@material-ui/core/styles";
 import {Molecule, ProjectedMolecule} from "../types/Molecules";
 import {IconButton, ListItem, ListItemText, Typography} from "@material-ui/core";
-import {ShoppingBasket, ShoppingCart} from "@material-ui/icons";
+import {Check, Close} from "@material-ui/icons";
 import {useUpdateMolecule} from "../hooks/useUpdateMolecule";
 import React from "react";
 
@@ -22,7 +22,7 @@ interface MoleculeCandidateItemProps extends MoleculeCandidateProps {
 }
 
 export const MoleculeCandidateItem: React.FC<MoleculeCandidateItemProps> = ({molecule, selectedMolecule, handleSelectedMoleculeChange}) => {
-    const {mutate} = useUpdateMolecule();
+    const mutate = useUpdateMolecule();
 
     const selectMolecule = () => handleSelectedMoleculeChange(molecule);
     const updateMolecule = (label: string) => {
@@ -35,18 +35,16 @@ export const MoleculeCandidateItem: React.FC<MoleculeCandidateItemProps> = ({mol
     const classes = useStyles();
 
     return (
-        <ListItem key={`item_${molecule.uid}`}
-                  onClick={selectMolecule} selected={selectedPred}>
-            <ListItemText key={`itemText_${molecule.uid}`}
-                          primary={molecule.uid}
+        <ListItem onClick={selectMolecule} selected={selectedPred}>
+            <ListItemText primary={`ID: ${molecule.uid}`}
                           secondary={
                               <Typography className={classes.overflowScroll}>{molecule.str_rep}</Typography>
                           }/>
             <IconButton onClick={() => updateMolecule('False')}>
-                <ShoppingBasket/>
+                <Close/>
             </IconButton>
             <IconButton onClick={() => updateMolecule('True')}>
-                <ShoppingCart/>
+                <Check/>
             </IconButton>
         </ListItem>
     )

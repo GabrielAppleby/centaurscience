@@ -50,7 +50,25 @@ const BUFFER_PROPORTION = 1 / 20;
 const MARGINS_PROPORTION = 1 / 40;
 const LEGEND_PROPORTION = 1 / 6;
 const CIRCLE_R = 2;
-const colors = d3.scaleOrdinal(d3.schemeCategory10);
+// const colors = d3.scaleOrdinal(d3.schemeCategory10);
+const colors = (d: string) => {
+    if (d === 'Unknown')
+    {
+        return "#7f7f7f";
+    }
+    else if (d === 'Candidate')
+    {
+        return "#2ca02c";
+    }
+    else if (d === 'False')
+    {
+        return "#d62728";
+    }
+    else if (d === 'True')
+    {
+        return "#1f77b4";
+    }
+};
 
 
 interface ProjectionChartProps {
@@ -106,6 +124,7 @@ const joinLegend = (rootG: RootSelection, labels: string[], {symbolX, textX, sym
         .attr('r', 2 * CIRCLE_R)
         .style("stroke", "black")
         .style("stroke-width", .25)
+        // @ts-ignore
         .style("fill", (label) => {
             return colors(String(label));
         })
@@ -161,7 +180,6 @@ const removeAppendZoom = (rootG: RootSelection,
 
 
     const updateChart = (t: any) => {
-
         // recover the new scale
         const newXScale = t.rescaleX(xScale);
         const newYScale = t.rescaleY(yScale);
@@ -182,7 +200,8 @@ const removeAppendZoom = (rootG: RootSelection,
     const zoom = d3.zoom()
         .scaleExtent([.8, 40])  // This control how much you can unzoom (x0.5) and zoom (x20)
         .extent([[startX, startY], [endX, endY]])
-        .on("zoom", (event) => {
+        .duration(0)
+        .on("end", (event) => {
             // @ts-ignore
             updateChart(event.transform)
         });
@@ -220,6 +239,7 @@ const joinCircles = (rootG: RootSelection,
         .attr('r', CIRCLE_R)
         .style("stroke", "black")
         .style("stroke-width", .25)
+        // @ts-ignore
         .style("fill", (d) => {
             return colors(String(d.label));
         })
@@ -239,6 +259,7 @@ const updateSelectedCircle = (rootG: RootSelection, selectedMolecule: ProjectedM
     circlesG
         .select(".selected")
         .attr('class', null)
+        // @ts-ignore
         .style('fill', (d) => {
             // Danger
             const mol = d as ProjectedMolecule;
@@ -275,8 +296,8 @@ const getCoordsAndSpecs = (dimensions: Dimensions, labelLength: number) => {
     const legendSpec: D3LegendSpec = {
         symbolX: width - (margins.w / 2) - legend_space,
         textX: width - (margins.w / 2) - legend_space + 2 * CIRCLE_R,
-        symbolStartY: (height - margins.h) / 2,
-        textStartY: ((height - margins.h) / 2) + 2 * CIRCLE_R,
+        symbolStartY: margins.h,
+        textStartY: margins.h + (2 * CIRCLE_R),
         incrementY: ((labelLength / 2) * 8 * CIRCLE_R)
     }
 

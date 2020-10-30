@@ -23,7 +23,5 @@ export function useUpdateMolecule() {
     // @ts-ignore
     const [mutate] = useMutation(updateMolecule)
 
-    return {
-        mutate
-    };
+    return mutate;
 }
