@@ -37,6 +37,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
     command: npm start 
+      #command: tail -f /dev/null
     ports:
       - 3000:3000
     volumes:
