@@ -13,7 +13,7 @@ services:
     depends_on:
       - redis
       - db
-    command: celery -A app.celery worker
+    command: celery -A app.celery worker --loglevel=INFO
   backend:
     build:
       context: ./backend
